@@ -8,16 +8,16 @@ class Purchacer:
     def __init__(self, staff_id):
         self.staff_id = staff_id
         
-    def consider_purchase(self): #A
+    def consider_purchase(self): 
         global inventory
         global transactions
-        if (current_datetime.hour < 9) or (current_datetime.hour > 17): #B
+        if (current_datetime.hour < 9) or (current_datetime.hour > 17): 
             return
-        if np.random.random() > 0.01: #C
+        if np.random.random() > 0.01: 
             product_id = np.random.choice(range(num_items_in_inventory))
-            if inventory[product_id] > 1000: #D
+            if inventory[product_id] > 1000: 
                 return        
-            supplier_id = np.random.choice(range(num_suppliers)) #E
+            supplier_id = np.random.choice(range(num_suppliers)) 
             unit_cost = np.random.exponential() * 20.0
             num_purchased = np.random.randint(10, 200)
             total_cost = num_purchased * unit_cost
@@ -27,7 +27,7 @@ class Purchacer:
                                  num_purchased, unit_cost, total_cost,
                                  inventory[product_id]])
 
-class RoguePurchaser: #F
+class RoguePurchaser: 
     def __init__(self, staff_id):
         self.staff_id = staff_id
         self.extra_purchase_months = []
@@ -55,7 +55,7 @@ class RoguePurchaser: #F
         
         elif np.random.random() > 0.01:
             product_id = np.random.choice(range(num_items_in_inventory))
-            if product_id == 0: #H
+            if product_id == 0: 
                 return            
             if inventory[product_id] > 1000:
                 return        
@@ -69,7 +69,7 @@ class RoguePurchaser: #F
                                  num_purchased, unit_cost, total_cost, 
                                  inventory[product_id]])
             
-class Sales: #I
+class Sales: 
     def consider_sale(self):
         global inventory
         if (current_datetime.hour < 9) or (current_datetime.hour > 17):
