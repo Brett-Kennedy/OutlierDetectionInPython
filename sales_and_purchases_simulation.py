@@ -8,17 +8,17 @@ class Purchacer:
     def __init__(self, staff_id):
         self.staff_id = staff_id
         
-    def consider_purchase(self): 
+    def consider_purchase(self): #A
         global inventory
         global transactions
-        if (current_datetime.hour < 9) or (current_datetime.hour > 17): 
+        if (current_datetime.hour < 9) or (current_datetime.hour > 17): #B
             return
-        if np.random.random() > 0.01: 
+        if np.random.random() > 0.01: #C
             product_id = np.random.choice(range(num_items_in_inventory))
-            if inventory[product_id] > 1000: 
+            if inventory[product_id] > 1000: #D
                 return        
-            supplier_id = np.random.choice(range(num_suppliers)) 
-            unit_cost = np.random.exponential() * 20.0
+            supplier_id = np.random.choice(range(num_suppliers)) #E
+            unit_cost = abs(np.random.normal()) * 20.0
             num_purchased = np.random.randint(10, 200)
             total_cost = num_purchased * unit_cost
             inventory[product_id] += num_purchased        
@@ -27,7 +27,7 @@ class Purchacer:
                                  num_purchased, unit_cost, total_cost,
                                  inventory[product_id]])
 
-class RoguePurchaser: 
+class RoguePurchaser: #F
     def __init__(self, staff_id):
         self.staff_id = staff_id
         self.extra_purchase_months = []
@@ -42,9 +42,11 @@ class RoguePurchaser:
             (current_datetime.month not in self.extra_purchase_months): #G
             product_id = 5
             supplier_id = 10
-            unit_cost = np.random.exponential() * 250.0
-            trend_factor = np.log2(current_datetime.month+1) + 1
-            num_purchased = int(np.random.randint(50, 60) * trend_factor)
+            unit_cost = abs(np.random.normal()) * 60.0  # 40.0
+            #trend_factor = np.log2(current_datetime.month+1) + 1
+            trend_factor = current_datetime.month + 1
+            num_purchased = int(np.random.randint(50, 60) * trend_factor)  
+            #print(current_datetime.month, trend_factor, num_purchased)
             total_cost = num_purchased * unit_cost
             inventory[product_id] += num_purchased        
             transactions.append(['Purchase', self.staff_id, supplier_id, product_id, 
@@ -55,12 +57,12 @@ class RoguePurchaser:
         
         elif np.random.random() > 0.01:
             product_id = np.random.choice(range(num_items_in_inventory))
-            if product_id == 0: 
+            if product_id == 0: #H
                 return            
             if inventory[product_id] > 1000:
                 return        
             supplier_id = np.random.choice(range(num_suppliers))
-            unit_cost = np.random.exponential() * 20.0
+            unit_cost = abs(np.random.normal()) * 20.0
             num_purchased = np.random.randint(10, 200)
             total_cost = num_purchased * unit_cost
             inventory[product_id] += num_purchased        
@@ -69,7 +71,7 @@ class RoguePurchaser:
                                  num_purchased, unit_cost, total_cost, 
                                  inventory[product_id]])
             
-class Sales: 
+class Sales: #I
     def consider_sale(self):
         global inventory
         if (current_datetime.hour < 9) or (current_datetime.hour > 17):
@@ -113,3 +115,12 @@ transactions_df = pd.DataFrame(transactions, columns=[
     'Type', 'Staff ID', 'Supplier ID', 'Product ID', 
     'Datetime', 'Count', 'Unit Cost', 'Total Cost', 'Inventory'])
 transactions_df = transactions_df[pd.to_datetime(transactions_df['Datetime']) >= datetime(2023, 1, 1)]
+#A Simualate a normal purchase agent
+#B Only make purchases between 9am and 6pm
+#C Randomly decide if will make a purchase
+#D Do not buy if there is sufficient in stock
+#E Choose a suplier, number bought and unit cost randomly
+#F Simulate a rogue process
+#G The 28th of each month it makes an unusual purchase
+#H This agent does not buy from Supplier 0
+#I Simulate a sales process
