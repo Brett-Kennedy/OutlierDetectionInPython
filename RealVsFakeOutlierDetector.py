@@ -12,7 +12,7 @@ class RealVsFakeOutlierDetector():
         self.clf = DecisionTreeClassifier(max_depth=self.max_depth, 
                                           max_leaf_nodes=self.max_leaf_nodes,
                                           random_state=0) 
-        self.clf.fit(df.drop(columns=['Real']), train_df['Real'])
+        self.clf.fit(df.drop(columns=[label_col]), train_df[label_col])
     
     def predict(self, df):
         return self.clf.predict(df)
