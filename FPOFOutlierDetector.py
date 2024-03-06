@@ -1,6 +1,5 @@
 from mlxtend.frequent_patterns import apriori
 import pandas as pd
-from sklearn.datasets import fetch_openml
 
 class FPOFOutlierDetector():
     def __init__(self, min_support=0.3):
