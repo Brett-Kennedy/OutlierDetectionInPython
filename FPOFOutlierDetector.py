@@ -1,3 +1,5 @@
+# Requires mlxtend be installed.
+
 from mlxtend.frequent_patterns import apriori
 import pandas as pd
 
