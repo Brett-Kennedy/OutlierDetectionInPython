@@ -1,4 +1,4 @@
-class Radius_OutlierDetector:
+class RadiusOutlierDetector:
     def __init__(self):
         pass
 
